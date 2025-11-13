@@ -43,6 +43,8 @@ let urls: {
 if (genericType) {
 	const base = genericType[1].trim();
 	const generic = genericType[2].trim();
+	const [_pairs, type, _innerTable] = extractTableType(generic); 
+
 	url = null;
 	urls = {
 		base: {
@@ -52,7 +54,7 @@ if (genericType) {
 
 		generic: generic.split(", ").map((generic) => ({
 			typeName: generic.trim(),
-			url: getTypeDocs(generic.trim()),
+			url: type ?? getTypeDocs(generic.trim()),
 		})),
 	};
 }
