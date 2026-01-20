@@ -18,8 +18,19 @@ local function h3(source)
 	return `### {source}\n\n`
 end
 
+local function escapeDescription(desc: string): string
+	-- Escape angle brackets that could be interpreted as HTML/JSX tags
+	-- Only escape < that are followed by a letter (looks like HTML tag)
+	local escaped = desc:gsub("<(%a)", "\\<%1")
+	return escaped
+end
+
 local function input(source)
 	return `{source}\n`
+end
+
+local function inputDesc(source)
+	return `{escapeDescription(source)}\n`
 end
 
 local function separator()
@@ -132,7 +143,7 @@ function Markdown.generateMarkdownDocumentFor(classDocumentation: Moonwave.moonw
 
 	markdownFile ..= newline()
 
-	markdownFile ..= input(classDescription)
+	markdownFile ..= inputDesc(classDescription)
 
 	markdownFile ..= newline()
 
@@ -150,7 +161,7 @@ function Markdown.generateMarkdownDocumentFor(classDocumentation: Moonwave.moonw
 
 			if prop.desc ~= "" then
 				markdownFile ..= separator()
-				markdownFile ..= input(prop.desc)
+				markdownFile ..= inputDesc(prop.desc)
 			end
 		end
 
@@ -162,7 +173,7 @@ function Markdown.generateMarkdownDocumentFor(classDocumentation: Moonwave.moonw
 
 				if inheritedProperty.desc ~= "" then
 					markdownFile ..= separator()
-					markdownFile ..= input(inheritedProperty.desc)
+					markdownFile ..= inputDesc(inheritedProperty.desc)
 				end
 
 				markdownFile ..= newline()
@@ -188,7 +199,7 @@ function Markdown.generateMarkdownDocumentFor(classDocumentation: Moonwave.moonw
 
 			if method.desc then
 				markdownFile ..= newline()
-				markdownFile ..= input(method.desc)
+				markdownFile ..= inputDesc(method.desc)
 			end
 		end
 
@@ -203,7 +214,7 @@ function Markdown.generateMarkdownDocumentFor(classDocumentation: Moonwave.moonw
 
 				if inheritedFunction.desc then
 					markdownFile ..= newline()
-					markdownFile ..= input(inheritedFunction.desc)
+					markdownFile ..= inputDesc(inheritedFunction.desc)
 				end
 
 				markdownFile ..= newline()
@@ -229,7 +240,7 @@ function Markdown.generateMarkdownDocumentFor(classDocumentation: Moonwave.moonw
 
 			if func.desc then
 				markdownFile ..= newline()
-				markdownFile ..= input(func.desc)
+				markdownFile ..= inputDesc(func.desc)
 			end
 		end
 
@@ -240,11 +251,11 @@ function Markdown.generateMarkdownDocumentFor(classDocumentation: Moonwave.moonw
 				end
 
 				markdownFile ..= h3(inheritedFunction.name)
-				markdownFile ..= declaration(inheritedFunction.name, className, false, inheritedFunction.params)		
-	
+				markdownFile ..= declaration(inheritedFunction.name, className, false, inheritedFunction.params)
+
 				if inheritedFunction.desc then
 					markdownFile ..= newline()
-					markdownFile ..= input(inheritedFunction.desc)
+					markdownFile ..= inputDesc(inheritedFunction.desc)
 				end
 
 				markdownFile ..= newline()
