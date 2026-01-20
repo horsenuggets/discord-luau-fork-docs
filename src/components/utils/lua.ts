@@ -65,11 +65,14 @@ export const getKvPairs = (tblInner: string) => {
 	tblInner = tblInner.trim();
 	const pairs = tblInner
 		.split(",")
+		.map(pair => pair.trim())
+		.filter(pair => pair.length > 0)
 		.map(pair => pair.split(":").map(elem => elem.trim()));
 
 	return pairs;
 };
 
-export const isObject = (tblInner: string) => {
+export const isObject = (tblInner: string | undefined) => {
+	if (!tblInner) return false;
 	return tblInner.match(/(.*):(.*)/) !== null;
 };
