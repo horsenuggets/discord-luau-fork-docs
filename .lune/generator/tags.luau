@@ -1,4 +1,4 @@
-local Moonwave = require("moonwave")
+local Moonwave = require("./moonwave")
 
 local Tags = {}
 

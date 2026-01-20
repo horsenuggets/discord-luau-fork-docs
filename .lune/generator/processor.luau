@@ -1,5 +1,5 @@
-local Moonwave = require("moonwave")
-local Tags = require("tags")
+local Moonwave = require("./moonwave")
+local Tags = require("./tags")
 
 local Processor = {}
 

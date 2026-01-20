@@ -1,7 +1,7 @@
-local Moonwave = require("moonwave")
-local Generator = require("generator")
-local Markdown = require("markdown")
-local Processor = require("processor")
+local Moonwave = require("./moonwave")
+local Generator = require("./generator")
+local Markdown = require("./markdown")
+local Processor = require("./processor")
 
 Generator.removeLegacyFiles()
 
