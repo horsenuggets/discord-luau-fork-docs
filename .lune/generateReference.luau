@@ -1,1 +1,1 @@
-require("generator")
+require("./generator")
