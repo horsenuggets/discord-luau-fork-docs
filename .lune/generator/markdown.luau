@@ -41,7 +41,10 @@ local function import(component)
 	return `import {component} from '$/components/{component}.astro';\n`
 end
 
-local function escapeType(luaType: string): string
+local function escapeType(luaType: string?): string
+	if not luaType or luaType == "" then
+		return "unknown"
+	end
 	-- Normalize whitespace: replace newlines and tabs with spaces, collapse multiple spaces
 	local escaped = luaType:gsub("[\n\r\t]+", " "):gsub(" +", " "):gsub("^ ", ""):gsub(" $", "")
 	-- Escape quotes for JSX attribute
@@ -71,7 +74,7 @@ local function declaration(functionName, className, isMethod, parameters, return
 	return `> <LuaDeclaration {formattedProps} />`
 end
 
-local function property(name: string, luaType: string)
+local function property(name: string, luaType: string?)
 	local escapedType = escapeType(luaType)
 	return `<LuaProperty name="{name}" type="{escapedType}" />`
 end
