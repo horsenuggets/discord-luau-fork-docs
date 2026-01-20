@@ -4,7 +4,7 @@ import starlight from "@astrojs/starlight";
 // https://astro.build/config
 export default defineConfig({
 	output: "static",
-	site: "https://horsenuggets.github.io",
+	site: "https://horsenuggets.github.io/discord-luau-fork-docs",
 	base: "/discord-luau-fork-docs",
 	image: {
 		service: passthroughImageService(),
