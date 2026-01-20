@@ -1,11 +1,13 @@
 import { defineConfig, passthroughImageService } from "astro/config";
 import starlight from "@astrojs/starlight";
+import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
 	output: "static",
 	site: "https://horsenuggets.github.io/discord-luau-fork-docs",
 	base: "/discord-luau-fork-docs",
+	trailingSlash: "always",
 	image: {
 		service: passthroughImageService(),
 	},
@@ -50,5 +52,6 @@ export default defineConfig({
 				Header: "./src/components/Header.astro",
 			},
 		}),
+		sitemap(),
 	],
 });
