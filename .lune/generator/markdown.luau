@@ -30,28 +30,39 @@ local function import(component)
 	return `import {component} from '$/components/{component}.astro';\n`
 end
 
+local function escapeType(luaType: string): string
+	-- Normalize whitespace: replace newlines and tabs with spaces, collapse multiple spaces
+	local escaped = luaType:gsub("[\n\r\t]+", " "):gsub(" +", " "):gsub("^ ", ""):gsub(" $", "")
+	-- Escape quotes for JSX attribute
+	escaped = escaped:gsub('"', '\\"')
+	return escaped
+end
+
 local function declaration(functionName, className, isMethod, parameters, returnType: string?)
 	local argumentComponents = {}
 
 	for index, paramObject in parameters do
-		table.insert(argumentComponents, `\{ name: "{paramObject.name}", type: "{paramObject.lua_type}" }`)
+		local escapedType = escapeType(paramObject.lua_type)
+		table.insert(argumentComponents, `\{ name: "{paramObject.name}", type: "{escapedType}" }`)
 	end
 
 	local formattedProps = `name="{functionName}" className="{className}" args=\{[ {table.concat(argumentComponents, ", ")} ]}`
-	
+
 	if returnType then
-		formattedProps ..= ` returnType="{returnType}"`
+		local escapedReturnType = escapeType(returnType)
+		formattedProps ..= ` returnType="{escapedReturnType}"`
 	end
 
-	if isMethod then 
+	if isMethod then
 		formattedProps ..= " isMethod"
 	end
 
 	return `> <LuaDeclaration {formattedProps} />`
 end
 
-local function property(name: string, type: string)
-	return `<LuaProperty name="{name}" type="{type}" />`
+local function property(name: string, luaType: string)
+	local escapedType = escapeType(luaType)
+	return `<LuaProperty name="{name}" type="{escapedType}" />`
 end
 
 local function frontmatter(source: {
