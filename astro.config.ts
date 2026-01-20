@@ -1,25 +1,24 @@
 import { defineConfig, passthroughImageService } from "astro/config";
 import starlight from "@astrojs/starlight";
-import deno from "@deno/astro-adapter";
 
 // https://astro.build/config
 export default defineConfig({
-	output: "server",
-	adapter: deno(),
+	output: "static",
+	site: "https://horsenuggets.github.io",
+	base: "/discord-luau-fork-docs",
 	image: {
 		service: passthroughImageService(),
 	},
 	integrations: [
 		starlight({
-			title: "Discord Luau",
+			title: "discord-luau-fork",
 			logo: {
 				src: "/src/assets/logo.png",
 				replacesTitle: true,
 			},
 			favicon: "/icon.png",
 			social: {
-				github: "https://github.com/DiscordLuau/discord-luau",
-				discord: "https://discord.gg/DpQwdD8zD3",
+				github: "https://github.com/horsenuggets/discord-luau-fork",
 			},
 			sidebar: [
 				{

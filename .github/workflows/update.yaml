@@ -17,29 +17,37 @@ jobs:
         with:
           submodules: true
 
-      - name: Install tooling
-        uses: ok-nick/setup-aftman@v0.4.2
-        with:
-          cache: true
+      - name: Setup Rokit
+        uses: CompeyDev/setup-rokit@v0.1.2
 
-      - name: Update discord-luau source
+      - name: Update discord-luau-fork source
         run: git submodule update --remote --recursive
 
-      - name: Update ref files
-        run: |
-          ./lunew generateReference
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
 
-      - name: Commit & push
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Update ref files
+        run: ./lunew generateReference
+
+      - name: Commit and push
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "docs: update refs for https://github.com/DiscordLuau/discord-luau/commit/${{ github.event.client_payload.sha }}" && \
-            git push || echo "warn: no changes to commit"
+          git commit -m "Update docs for https://github.com/horsenuggets/discord-luau-fork/commit/${{ github.event.client_payload.sha }}" && \
+            git push || echo "No changes to commit"
 
-      - name: Deploy dispatch
+      - name: Trigger deploy
         uses: peter-evans/repository-dispatch@v3
         with:
-          repository: DiscordLuau/docs
+          repository: horsenuggets/discord-luau-fork-docs
           event-type: deploy
-          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
