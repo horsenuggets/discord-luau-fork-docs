@@ -52,6 +52,8 @@ export default defineConfig({
 				Header: "./src/components/Header.astro",
 			},
 		}),
-		sitemap(),
+		sitemap({
+			filter: () => true,
+		}),
 	],
 });
