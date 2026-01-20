@@ -32,10 +32,10 @@ function Moonwave.getFunctionsOfFunctionType(inputArray: { any }, functionType: 
 end
 
 function Moonwave.extractCommentsIntoJson(): moonwaveDataExportArray
-	local moonwaveExtractResult = process.spawn("moonwave", {
+	local moonwaveExtractResult = process.exec("moonwave", {
 		"extract",
 		"-b",
-		"discord-luau/Package",
+		"discord-luau/Source/DiscordLuau",
 	})
 
 	if not moonwaveExtractResult.ok then

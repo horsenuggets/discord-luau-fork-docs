@@ -1,2 +1,3 @@
 [tools]
 lune = "lune-org/lune@0.10.4"
+moonwave = "evaera/moonwave@1.3.0"
