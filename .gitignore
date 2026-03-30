@@ -18,4 +18,4 @@ yarn-error.log*
 
 # macOS-specific files
 .DS_Store
-TODO.md
+/TODO.md
